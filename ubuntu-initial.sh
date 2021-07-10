@@ -73,7 +73,8 @@ mkdir -p ~/.ssh
 chmod 700 ~/.ssh
 cat << 'EOF' >> ~/.ssh/config
 Host *
-  ServerAliveInterval 60
+  ServerAliveInterval 120
+  ServerAliveCountMax 5
   StrictHostKeyChecking no
 
 Host github.com
