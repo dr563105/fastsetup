@@ -134,5 +134,7 @@ To test email, create a text file `msg` containing a message to send, then send 
 
 Replace `EMAIL_ADDR` with an address to send to. You can get a useful testing address from [mail-tester](https://www.mail-tester.com/).
 
-### Useful tips:
-To prevent AWS(server) PC from timeout issues, it is recommended to login from **tmux**.
+### Useful tip:
+To prevent AWS(server) PC from timeout issues, it is recommended to login from a **tmux**
+session.
+
