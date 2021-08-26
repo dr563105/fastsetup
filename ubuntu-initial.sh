@@ -43,9 +43,8 @@ CODENAME=$(lsb_release -cs)
 cat >> /etc/apt/sources.list << EOF
 deb https://cli.github.com/packages $CODENAME main
 deb http://ppa.launchpad.net/apt-fast/stable/ubuntu $CODENAME main
-deb http://ppa.launchpad.net/neovim-ppa/stable/ubuntu $CODENAME main
 EOF
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C99B11DEB97541F0 1EE2FF37CA8DA16B 55F96FCF8231B6DD
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C99B11DEB97541F0 1EE2FF37CA8DA16B
 
 apt-get update
 
@@ -62,7 +61,7 @@ EOF
 chown root:root /etc/{logrotate,apt-fast}.conf /etc/systemd/journald.conf /etc/apt/apt.conf.d/{50unattended-upgrades,10periodic}
 
 apt-fast -qy install python
-apt-fast -qy install neovim rsync ubuntu-drivers-common python3-pip ack lsyncd wget bzip2 ca-certificates git build-essential \
+apt-fast -qy install vim rsync ubuntu-drivers-common python3-pip ack lsyncd wget bzip2 ca-certificates git build-essential \
   software-properties-common curl grep sed dpkg libglib2.0-dev zlib1g-dev lsb-release tmux less htop exuberant-ctags openssh-client python-is-python3 \
   python3-pip python3-dev dos2unix gh pigz ufw ubuntu-release-upgrader-core unattended-upgrades cpanminus libmime-lite-perl \
   opensmtpd mailutils bash-completion zsh
