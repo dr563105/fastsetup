@@ -5,7 +5,9 @@ additional instructions.
 ### Setup all the things
 
 Login using `ssh -i <path-to-pem-file> ubuntu@<ip-address>`
-#### (Alternative): `ssh -i <path-to-pem-file> ubuntu@<ip-address>`
+#### (Alternative): 
+
+`ssh -i <path-to-pem-file> ubuntu@<ip-address>`
 
 
 In some cases if the host terminal is using a different XTERM environment such as `xterm-kitty`(echo $TERM), that environment is reflected 
