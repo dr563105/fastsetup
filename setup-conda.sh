@@ -29,3 +29,4 @@ bash Miniconda3-latest*.sh -b
 ~/miniconda3/bin/conda init $SHELL_NAME
 rm Miniconda3-latest*.sh
 
+cd -

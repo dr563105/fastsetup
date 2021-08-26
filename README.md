@@ -1,15 +1,17 @@
 # fastsetup
-This fork is similar to fastai's but adds support to make default shell as zsh.
+This fork is similar to fastai's but adds support to make default shell as zsh and some
+additional instructions.
 
 ### Setup all the things
 
-Login using `ssh ubuntu@ipaddress`
+Login using `ssh -i <path-to-pem-file> ubuntu@<ip-address>`
+#### (Alternative): `ssh -i <path-to-pem-file> ubuntu@<ip-address>`
 
 
 In some cases if the host terminal is using a different XTERM environment such as `xterm-kitty`(echo $TERM), that environment is reflected 
 in the remote EC2 instance. If that is the case, it best to use this command: 
 
-`TERM='xterm-256color' ssh ubuntu@ipaddress`
+`TERM='xterm-256color' ssh -i <path-to-pem-file> ubuntu@<ip-address>`
 
 Also a possibility would be to add the TERM env to bashrc file. 
 
@@ -43,7 +45,7 @@ Then reconnect using ssh, but with an additional -L flag which will allow you to
 
 ### Step 2:
 
-`TERM='xterm-256color' ssh -L localhost:8888:localhost:8888 ubuntu@<your-IP>`
+`ssh -i <path-to-pem-file> -L localhost:8888:localhost:8888 ubuntu@<ip-address>`
 
 #### (Optional): Change default shell to ZSH with [Oh My ZSH](https://github.com/ohmyzsh/ohmyzsh)
 Bash shell users skip to next step.
@@ -73,7 +75,7 @@ cd fastsetup
 Then 
 
 ```
-source ~/.zshrc
+source ~/.zshrc (or source ~/.bashrc)
 conda install mamba -n base 
 ```
 
@@ -105,7 +107,10 @@ Make there is enough space to install(`df -h`):
 mamba install -y fastbook
 ```
 Fastbook is a fastai's python package. To see what it install remove `-y` from the command. 
-If there is segmentation fault error, it is probably due to space issue. 
+If there is segmentation fault error, it is probably due to space issue.
+
+#### Note: 
+For dry run, use '-d' argument in the mamba install command. 
 
 ### Step 7: 
 To download the notebooks, run:
@@ -126,3 +131,6 @@ To test email, create a text file `msg` containing a message to send, then send 
     cat msg |  mail -r "x@$(hostname -d)" -s 'subject' EMAIL_ADDR
 
 Replace `EMAIL_ADDR` with an address to send to. You can get a useful testing address from [mail-tester](https://www.mail-tester.com/).
+
+### Useful tips:
+To prevent AWS(server) PC from timeout issues, it is recommended to login from **tmux**.
