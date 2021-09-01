@@ -34,7 +34,7 @@ on the screen.
 
 First, do basic ubuntu configuration, such as updating packages, and turning on auto-updates:
 
-### Step 1:
+### Step 1: Ubuntu env setup:
 ```
 sudo apt update && sudo apt -y install git
 git clone https://github.com/dr563105/fastsetup.git
@@ -51,7 +51,7 @@ Wait a couple of minutes for reboot, then ssh back in
 Reboot when prompted.
 Then reconnect using ssh, but with an additional -L flag which will allow you to connect to Jupyter Notebook once it's installed:
 
-### Step 2:
+### Step 2: Opening ports for jupyter notebook:
 
 `ssh -i <path-to-pem-file> -L localhost:8888:localhost:8888 ubuntu@<ip-address>`
 
@@ -121,7 +121,7 @@ conda create -n <envname> -y
 conda create -n fastbookenv -y
 conda activate fastbookenv
 ```
-### Step 6:
+### Step 6: Install fastbook with all its dependencies including CUDA enabled pytorch libraries
 
 Now you’re ready to install all needed packages for the fast.ai course:
 Make there is enough space to install(`df -h`):
@@ -155,7 +155,7 @@ True
 ```
 If the commands return the same results, then we're ready to use fastai.
 
-### Step 7:
+### Step 8: Run jupyter notebook
 To download the notebooks, run:
 ```
 cd
