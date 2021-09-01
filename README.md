@@ -136,7 +136,7 @@ If there is segmentation fault error, it is probably due to space issue.
 #### Tip:
 For dry run, use '-d' argument in the mamba install command.
 
-### Step 7 - Sanity checks:
+### Step 7: Sanity checks:
 These checks are to verifying if indeed CUDA enabled pytorch is installed correctly. Enter
 these commands inside a python shell.
 ```
