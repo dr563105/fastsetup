@@ -2,20 +2,26 @@
 This fork is similar to fastai's but adds support to make default shell as zsh and some
 additional instructions.
 
+## Important update:
+Due to current dependency conflicts with mamba, fastbook, and fastchan(a fastai conda channel), it is tedious
+to install fastbook with CUDA enabled pytorch and other dependent packages with a simple command.
+Changes in command in step 3, 5, and 6. Also added sanity checks for verifying if cuda installed is working.
+
 ### Setup all the things
 
-Login using `ssh -i <path-to-pem-file> ubuntu@<ip-address>`
-#### (Alternative): 
+Login using `ssh -i <path-to-pem-file> ubuntu@<ip-address>` (ubuntu for ubuntu EC2
+instance. ec2-user for amazon AMI, and so on). We will be using ubuntu ec2 instance.
+#### (Alternative):
 
 `ssh ubuntu@<ip-address>`
 
 
-In some cases if the host terminal is using a different XTERM environment such as `xterm-kitty`(echo $TERM), that environment is reflected 
-in the remote EC2 instance. If that is the case, it best to use this command: 
+In some cases if the host terminal is using a different XTERM environment such as `xterm-kitty`(echo $TERM), that environment is reflected
+in the remote EC2 instance. If that is the case, it best to use this command:
 
 `TERM='xterm-256color' ssh -i <path-to-pem-file> ubuntu@<ip-address>`
 
-Also a possibility would be to add the TERM env to bashrc file. 
+Also a possibility would be to add the TERM env to bashrc file.
 
 ```
 echo 'export TERM=xterm-256color' >> ~/.bashrc
@@ -38,11 +44,11 @@ sudo ./ubuntu-initial.sh
 
 The setup script will create a new user inside the cloud pc. This user is not to be
 confused with IAM user created by AWS root user. The EC2 has a general username *ubuntu*
-for all instances. 
+for all instances.
 
 Wait a couple of minutes for reboot, then ssh back in
 
-Reboot when prompted. 
+Reboot when prompted.
 Then reconnect using ssh, but with an additional -L flag which will allow you to connect to Jupyter Notebook once it's installed:
 
 ### Step 2:
@@ -55,7 +61,7 @@ Bash shell users skip to next step.
 ```
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 ```
-Change default SHELL to ZSH using 
+Change default SHELL to ZSH using
 ```
 sudo chsh $USER -s /bin/zsh
 
@@ -68,18 +74,26 @@ Logout and login again to activate ZSH shell. It is possible to switch without
 disconnecting but I find this step simpler to other solutions.
 
 ### Step 3: Set up conda:
-Installs miniconda3 which is mini version of anaconda 
+Installs miniconda3 which is mini version of anaconda
 
 ```
 cd fastsetup
 ./setup-conda.sh
 ```
-Then 
+#### Note:
+Deviates from fastai's fastsetup `setup-conda.sh`script in creating a `.condarc` file. My
+experiments have shown this step to be troublesome.
+
+Then
 
 ```
 source ~/.zshrc (or source ~/.bashrc)
-conda install mamba -n base 
+conda install mamba -n base -c fastchan
 ```
+(`-c fastchan` is needed here as we have removed `.condarc` file)
+
+Also don't mix `conda-forge` with `fastai` channels. Stick to either `fastchan` or
+`conda-forge`.
 
 ### Step 4: Nvidia drivers
 Next, find out which NVIDIA drivers you need: `ubuntu-drivers devices`
@@ -89,32 +103,59 @@ Next, find out which NVIDIA drivers you need: `ubuntu-drivers devices`
 "460" might be a different number, based on `ubuntu-drivers` output above
 
 ```
-sudo apt-fast install -y nvidia-driver-460-server
+sudo apt-fast install -y nvidia-driver-470-server
 sudo modprobe nvidia
 nvidia-smi
 ```
+#### Note:
+The command installs `cuda 11.4`. This is not to be confused with `cudatoolkit=11.1` which
+is needed for `pytorch=1.9`. Also each pytorch conda install comes with its own `cuDNN`
+runtime. So installing `cuDNN` separately is not needed. `cuda 11.4` comes to play if
+pytorch is built from source.
+
 ### Step 5: Create conda environment
 It is good practice to install the necessary packages for this course in a new conda
 environment. Installing everything in the conda `base` environment is not advisable.
 ```
-conda create -n <envname> python=<version>
-conda create -n fastbookenv python=3.8
+conda create -n <envname> -y
+conda create -n fastbookenv -y
+conda activate fastbookenv
 ```
-### Step 6: 
+### Step 6:
 
 Now you’re ready to install all needed packages for the fast.ai course:
 Make there is enough space to install(`df -h`):
 
 ```
-mamba install -y fastbook
+mamba install fastbook python=3.8 -c fastai -c fastchan -c defaults -y
+conda install pytorch torchaudio torchvision python=3.8 cudatoolkit=11.1 -c fastchan -y
 ```
-Fastbook is a fastai's python package. To see what it install remove `-y` from the command. 
+Fastbook is a fastai's python package. To see what it install remove `-y` from the command.
 If there is segmentation fault error, it is probably due to space issue.
 
-#### Note: 
-For dry run, use '-d' argument in the mamba install command. 
+#### Tip:
+For dry run, use '-d' argument in the mamba install command.
 
-### Step 7: 
+### Step 7 - Sanity checks:
+These checks are to verifying if indeed CUDA enabled pytorch is installed correctly. Enter
+these commands inside a python shell.
+```
+$python
+>>>import torch
+>>>torch.version.cuda
+'11.1'
+>>>torch.cuda.is_available()
+True
+>>> torch.cuda.device_count()
+1
+>>>torch.cuda.current_device()
+0
+>>>torch.cuda.get_device_name(0)
+'Tesla T4'
+```
+If the commands return the same results, then we're ready to use fastai.
+
+### Step 7:
 To download the notebooks, run:
 ```
 cd
@@ -123,7 +164,7 @@ cd fastbook
 jupyter notebook
 ```
 
-#### (Optional): 
+#### (Optional):
 To set up email:
 
     sudo ./opensmtpd-install.sh
