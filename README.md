@@ -2,15 +2,21 @@
 This fork is similar to fastai's but adds support to make default shell as zsh and some
 additional instructions.
 
-## Important update:
+## Important update(as of Sep 2, 2021(as of Sep 2, 2021(as of Sep 2, 2021(as of Sep 2,
+2021(as of Sep 2, 2021(as of Sep 2, 2021(as of Sep 2, 2021(as of Sep 2, 2021(as of Sep 2,
+2021))))))))):
 Due to current dependency conflicts with mamba, fastbook, and fastchan(a fastai conda channel), it is tedious
 to install fastbook with CUDA enabled pytorch and other dependent packages with a simple command.
-Changes in command in step 3, 5, and 6. Also added sanity checks for verifying if cuda installed is working.
+Changes in execution are seen in step 3, 5, and 6. Also added sanity checks for verifying if cuda installed is working.
+
+Click **[TLDR](https://github.com/github/dr563105/blob/main/tldr.md)** to get the TLDR version
+of this readme.
 
 ### Setup all the things
 
 Login using `ssh -i <path-to-pem-file> ubuntu@<ip-address>` (ubuntu for ubuntu EC2
-instance. ec2-user for amazon AMI, and so on). We will be using ubuntu ec2 instance.
+instance, ec2-user for amazon AMI, and so on). We will be using ubuntu ec2 g4dn instance.
+
 #### (Alternative):
 
 `ssh ubuntu@<ip-address>`
@@ -43,12 +49,10 @@ sudo ./ubuntu-initial.sh
 ```
 
 The setup script will create a new user inside the cloud pc. This user is not to be
-confused with IAM user created by AWS root user. The EC2 has a general username *ubuntu*
-for all instances.
+confused with IAM user created by AWS root user.
 
-Wait a couple of minutes for reboot, then ssh back in
+Reboot when prompted. Wait a couple of minutes for reboot, then ssh back in
 
-Reboot when prompted.
 Then reconnect using ssh, but with an additional -L flag which will allow you to connect to Jupyter Notebook once it's installed:
 
 ### Step 2: Opening ports for jupyter notebook:
@@ -61,11 +65,7 @@ Bash shell users skip to next step.
 ```
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 ```
-Change default SHELL to ZSH using
-```
-sudo chsh $USER -s /bin/zsh
-
-```
+Change default SHELL to ZSH using `sudo chsh $USER -s /bin/zsh`
 
 When prompted for password, use the password for the user created during the setup
 process.
@@ -80,11 +80,12 @@ Installs miniconda3 which is mini version of anaconda
 cd fastsetup
 ./setup-conda.sh
 ```
+
 #### Note:
 Deviates from fastai's fastsetup `setup-conda.sh`script in creating a `.condarc` file. My
-experiments have shown this step to be troublesome.
+experiments have shown this file to be troublesome.
 
-Then
+Then,
 
 ```
 source ~/.zshrc (or source ~/.bashrc)
@@ -107,7 +108,9 @@ sudo apt-fast install -y nvidia-driver-470-server
 sudo modprobe nvidia
 nvidia-smi
 ```
+
 #### Note:
+
 The command installs `cuda 11.4`. This is not to be confused with `cudatoolkit=11.1` which
 is needed for `pytorch=1.9`. Also each pytorch conda install comes with its own `cuDNN`
 runtime. So installing `cuDNN` separately is not needed. `cuda 11.4` comes to play if
@@ -121,6 +124,7 @@ conda create -n <envname> -y
 conda create -n fastbookenv -y
 conda activate fastbookenv
 ```
+
 ### Step 6: Install fastbook with all its dependencies including CUDA enabled pytorch libraries
 
 Now you’re ready to install all needed packages for the fast.ai course:
@@ -163,6 +167,9 @@ git clone https://github.com/fastai/fastbook
 cd fastbook
 jupyter notebook
 ```
+Click on the localhost url that is displayed. It will open iPython notebook in your
+default browser. Alternatively, that link can be copied and opened in any browser of
+choice.
 
 #### (Optional):
 To set up email:
