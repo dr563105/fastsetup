@@ -7,7 +7,7 @@ Due to current dependency conflicts with mamba, fastbook, and fastchan(a fastai 
 to install fastbook with CUDA enabled pytorch and other dependent packages with a simple command.
 Changes in execution are seen in step 3, 5, and 6. Also added sanity checks for verifying if cuda installed is working.
 
-Click **[TLDR](https://github.com/dr563105/blob/main/tldr.md)** to get the TLDR version
+Click **[TLDR](https://github.com/dr563105/fastsetup/blob/master/tldr.md)** to get the TLDR version
 of this readme.
 
 ### Setup all the things
