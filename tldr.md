@@ -26,12 +26,16 @@ conda create -n <envname> -y
 conda create -n fastbookenv -y
 conda activate fastbookenv
 
-mamba install fastbook python=3.8 -c fastai -c fastchan -c defaults -y
+mamba install fastbook python=3.8 -c fastai -c fastchan -y
 conda install pytorch torchaudio torchvision python=3.8 cudatoolkit=11.1 -c fastchan -y
 ```
 
 Sanity checks -
 ```
+$which python
+/home/ubuntu/miniconda3/envs/fastbookenv/bin/python
+$python --version
+Python 3.8.5
 $python
 >>>import torch
 >>>torch.version.cuda

@@ -2,14 +2,12 @@
 This fork is similar to fastai's but adds support to make default shell as zsh and some
 additional instructions.
 
-## Important update(as of Sep 2, 2021(as of Sep 2, 2021(as of Sep 2, 2021(as of Sep 2,
-2021(as of Sep 2, 2021(as of Sep 2, 2021(as of Sep 2, 2021(as of Sep 2, 2021(as of Sep 2,
-2021))))))))):
+## Important update(as of Sep 2, 2021):
 Due to current dependency conflicts with mamba, fastbook, and fastchan(a fastai conda channel), it is tedious
 to install fastbook with CUDA enabled pytorch and other dependent packages with a simple command.
 Changes in execution are seen in step 3, 5, and 6. Also added sanity checks for verifying if cuda installed is working.
 
-Click **[TLDR](https://github.com/github/dr563105/blob/main/tldr.md)** to get the TLDR version
+Click **[TLDR](https://github.com/dr563105/blob/main/tldr.md)** to get the TLDR version
 of this readme.
 
 ### Setup all the things
@@ -131,7 +129,7 @@ Now you’re ready to install all needed packages for the fast.ai course:
 Make there is enough space to install(`df -h`):
 
 ```
-mamba install fastbook python=3.8 -c fastai -c fastchan -c defaults -y
+mamba install fastbook python=3.8 -c fastai -c fastchan -y
 conda install pytorch torchaudio torchvision python=3.8 cudatoolkit=11.1 -c fastchan -y
 ```
 Fastbook is a fastai's python package. To see what it install remove `-y` from the command.
@@ -144,6 +142,10 @@ For dry run, use '-d' argument in the mamba install command.
 These checks are to verifying if indeed CUDA enabled pytorch is installed correctly. Enter
 these commands inside a python shell.
 ```
+$which python
+/home/ubuntu/miniconda3/envs/fastbookenv/bin/python
+$python --version
+Python 3.8.5
 $python
 >>>import torch
 >>>torch.version.cuda
